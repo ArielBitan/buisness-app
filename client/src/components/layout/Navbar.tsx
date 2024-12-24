@@ -66,17 +66,14 @@ const Navbar = () => {
             </div>
           </li>
           <li>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="secondary"
-                  onClick={openModal}
-                  className="border border-border bg-secondary text-foreground hover:bg-secondary/40"
-                >
-                  Login
-                </Button>
-              </PopoverTrigger>
-            </Popover>
+            <Link to={"/login"}>
+              <Button
+                variant="secondary"
+                className="border border-border bg-secondary text-foreground hover:bg-secondary/40"
+              >
+                Login
+              </Button>
+            </Link>
           </li>
         </ul>
       </div>

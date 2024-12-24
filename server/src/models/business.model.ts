@@ -6,6 +6,10 @@ const businessSchema: mongoose.Schema<I_BusinessDocument> = new mongoose.Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     category: { type: String, required: true },
+    image: {
+      type: String,
+      required: false,
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

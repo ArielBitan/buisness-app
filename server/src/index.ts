@@ -25,7 +25,7 @@ app.use(express.json());
 
 app.use("/api/user", userRouter);
 app.use("/api/business", businessRouter);
-app.use("/api/business/subscription", subscriptionRouter);
+app.use("/api/business", subscriptionRouter);
 app.use("/api/reviews", reviewRouter);
 
 connectToDatabase()

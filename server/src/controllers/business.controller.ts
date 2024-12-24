@@ -4,10 +4,26 @@ import * as businessService from "../services/business.service";
 // Get businesses with optional filters
 export const getBusinesses = async (req: Request, res: Response) => {
   try {
-    const filter = req.query;
-    const businesses = await businessService.getBusinesses(filter);
+    const { filter = "", limit = "10", category = "" } = req.query;
+    const parsedLimit = Math.min(Math.max(parseInt(limit as string), 1), 100);
+    const filterObj: Record<string, any> = {};
+
+    if (filter) {
+      filterObj.name = { $regex: filter, $options: "i" };
+    }
+
+    if (category) {
+      filterObj.category = category;
+    }
+
+    const businesses = await businessService.getBusinesses(
+      filterObj,
+      parsedLimit
+    );
+
     res.status(200).json(businesses);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to get businesses" });
   }
 };

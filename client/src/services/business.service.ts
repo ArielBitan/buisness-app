@@ -2,9 +2,13 @@ import api from "@/lib/api";
 import { IBusiness, ISubscription } from "@/types/business.type";
 
 // Function to fetch all businesses
-export const fetchAllBusinesses = async (): Promise<IBusiness[]> => {
+export const fetchAllBusinesses = async (
+  limit?: number
+): Promise<IBusiness[]> => {
   try {
-    const { data } = await api.get<IBusiness[]>("/business");
+    const { data } = await api.get<IBusiness[]>(
+      `/business/businesses?limit=${limit}`
+    );
     return data;
   } catch (error) {
     console.error("Error fetching businesses:", error);

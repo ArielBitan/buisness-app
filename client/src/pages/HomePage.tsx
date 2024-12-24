@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import BusinessList from "@/components/BusinessList";
 
 const HomePage = () => {
   return (
@@ -18,15 +19,10 @@ const HomePage = () => {
 
       {/* Featured Businesses */}
       <section className="py-10">
-        <h2 className="text-3xl text-center">Featured Businesses</h2>
-        <div className="grid grid-cols-3 gap-6 mt-6">
-          {/* Example Business Cards */}
-          <div className="p-4 shadow-md">
-            <h3 className="font-bold">Business Name</h3>
-            <p>Category: Restaurant</p>
-          </div>
-          {/* Add more cards here */}
-        </div>
+        <h2 className="text-4xl text-center mb-9 font-semibold">
+          Featured Businesses
+        </h2>
+        <BusinessList />
       </section>
 
       {/* How It Works */}

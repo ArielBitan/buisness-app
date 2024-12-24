@@ -8,6 +8,7 @@ export interface I_UserDocument extends Document {
   email: string;
   name: string;
   password: string;
+  profilePic: string;
   plan: Plan;
   savedBusinesses: ObjectId[];
 }

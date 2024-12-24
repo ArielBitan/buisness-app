@@ -20,6 +20,10 @@ const userSchema: mongoose.Schema<I_UserDocument> = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    profilePic: {
+      type: String,
+      required: false,
+    },
     plan: {
       type: String,
       enum: ["Normal", "Standard", "Gold", "Platinum"],

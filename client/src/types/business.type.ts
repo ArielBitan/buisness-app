@@ -3,6 +3,7 @@ export interface IBusiness {
   name: string;
   description: string;
   category: string;
+  image: string;
   owner: string;
   createdAt: string;
   updatedAt: string;

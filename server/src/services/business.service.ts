@@ -2,9 +2,14 @@ import Business from "../models/business.model";
 import { I_BusinessDocument } from "../types/business.types";
 
 // Get businesses with optional filters
-export const getBusinesses = async (filter: Record<string, any>) => {
+export const getBusinesses = async (
+  filter: Record<string, any>,
+  limit: number
+) => {
   try {
-    return await Business.find(filter);
+    const businesses = await Business.find(filter).limit(limit).exec();
+
+    return businesses;
   } catch (err) {
     throw new Error("Failed to get businesses");
   }
