@@ -5,6 +5,7 @@ import cors from "cors";
 import userRouter from "./routes/user.route";
 import businessRouter from "./routes/business.route";
 import subscriptionRouter from "./routes/subscription.route";
+import reviewRouter from "./routes/review.route";
 
 import { connectToDatabase } from "./config/database";
 
@@ -22,9 +23,10 @@ app.use(
 
 app.use(express.json());
 
-app.use("/user", userRouter);
-app.use("/business", businessRouter);
-app.use("/business", subscriptionRouter);
+app.use("/api/user", userRouter);
+app.use("/api/business", businessRouter);
+app.use("/api/business/subscription", subscriptionRouter);
+app.use("/api/reviews", reviewRouter);
 
 connectToDatabase()
   .then(() => {

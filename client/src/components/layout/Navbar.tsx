@@ -12,7 +12,6 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   return (
     <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">
@@ -41,18 +40,10 @@ const Navbar = () => {
         >
           <li>
             <a
-              href="/projects"
-              className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+              href="/businesses"
+              className="relative font-bold hover:text-primary py-2 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
             >
               Businesses
-            </a>
-          </li>
-          <li>
-            <a
-              href="/projectInfo"
-              className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
-            >
-              Create Business
             </a>
           </li>
           <li>
@@ -60,7 +51,7 @@ const Navbar = () => {
               href="/about"
               className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
             >
-              About{" "}
+              About
             </a>
           </li>
           <li>
