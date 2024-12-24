@@ -25,7 +25,6 @@ const LoginForm = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
-  // React Query mutation for login
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
@@ -34,8 +33,8 @@ const LoginForm = () => {
         title: "Logged in successfully",
         description: `Welcome back ${user.name}!`,
       });
-      navigate("/");
       setUser(user);
+      navigate("/");
     },
     onError: (error: any) => {
       if (axios.isAxiosError(error)) {

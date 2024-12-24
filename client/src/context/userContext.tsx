@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { createContext, useContext, useState, useMemo } from "react";
 import { jwtDecode } from "jwt-decode";
 import { IUser } from "@/types/user.type";
 
