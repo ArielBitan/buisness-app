@@ -1,17 +1,80 @@
-import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "./ThemeProvider";
 import { Link } from "react-router-dom";
 import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
+import { useUser } from "@/context/userContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { LogOut } from "lucide-react";
+import { IUser } from "@/types/user.type";
+
+const UserMenu = ({ user }: { user: IUser }) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Avatar className="cursor-pointer mt-4">
+          <AvatarImage
+            className="rounded-full w-10 h-10"
+            src={user.profilePic}
+            alt="user-avatar"
+          />
+          <AvatarFallback className="rounded-full">CN</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="mr-1 mt-2 bg-secondary p-2 rounded-lg shadow-lg">
+        <DropdownMenuLabel className="font-bold mb-2">
+          My Account:
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="mb-1 hover:bg-primary/10 rounded">
+          <Link to="/profile">Profile</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="flex gap-2 hover:cursor-pointer hover:bg-primary/10 rounded">
+          <LogOut />
+          <span>Logout</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user, fetchUser } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      await fetchUser();
+      setIsLoading(false);
+    };
+    fetchUserData();
+  }, []);
 
-  const openModal = () => setIsModalOpen(true);
+  if (isLoading) {
+    return (
+      <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">
+        <div className="flex justify-between items-center p-4">
+          {/* Logo */}
+          <Link
+            to="/"
+            className="text-3xl font-extrabold flex items-center justify-center space-x-1 transition-transform duration-300 hover:scale-110"
+          >
+            Business-App
+          </Link>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">
@@ -66,14 +129,18 @@ const Navbar = () => {
             </div>
           </li>
           <li>
-            <Link to={"/login"}>
-              <Button
-                variant="secondary"
-                className="border border-border bg-secondary text-foreground hover:bg-secondary/40"
-              >
-                Login
-              </Button>
-            </Link>
+            {user ? (
+              <UserMenu user={user} />
+            ) : (
+              <Link to={"/login"}>
+                <Button
+                  variant="secondary"
+                  className="border border-border bg-secondary text-foreground hover:bg-secondary/40"
+                >
+                  Login
+                </Button>
+              </Link>
+            )}
           </li>
         </ul>
       </div>

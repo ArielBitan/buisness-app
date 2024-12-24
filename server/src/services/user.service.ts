@@ -49,7 +49,7 @@ export const loginUser = async (email: string, password: string) => {
     { expiresIn: "1h" }
   );
 
-  return token;
+  return { token, user };
 };
 
 export const logoutUser = async () => {};

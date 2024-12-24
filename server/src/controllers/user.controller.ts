@@ -16,16 +16,16 @@ export const signup = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const token = await userService.loginUser(email, password);
+    const { token, user } = await userService.loginUser(email, password);
     res
       .cookie("jwt", token, {
-        httpOnly: true,
+        httpOnly: false,
         secure: false,
         sameSite: "strict",
         maxAge: 3600000,
       })
       .status(200)
-      .json({ token });
+      .json({ user });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

@@ -11,60 +11,80 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-
-import api from "@/lib/api";
 import axios from "axios";
+import { loginUser } from "@/services/user.service";
+import { useUser } from "@/context/userContext";
 
 const LoginForm = () => {
   const { toast } = useToast();
-  const [loginData, setLoginData] = useState({ username: "", password: "" });
-  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
-  const handleLoginSubmit = async () => {
-    if (!loginData.username || !loginData.password) {
-      setError("Please fill in both username and password.");
-      return;
-    }
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
 
-    try {
-      const response = await api.post("/user/login", loginData);
-      const { _id, username, email, profilePic } = response.data;
+  // React Query mutation for login
+  const loginMutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      const { user } = data;
       toast({
         title: "Logged in successfully",
-        description: `Welcome back ${username}!`,
+        description: `Welcome back ${user.name}!`,
       });
       navigate("/");
-    } catch (error: unknown) {
+      setUser(user);
+    },
+    onError: (error: any) => {
       if (axios.isAxiosError(error)) {
         const errorMessage =
-          error.response?.data?.message || "Incorrect username or password.";
+          error.response?.data?.message || "Incorrect email or password.";
         setError(errorMessage);
       } else {
         setError("An unexpected error occurred.");
       }
+    },
+  });
+
+  const handleLoginSubmit = () => {
+    if (!loginData.email || !loginData.password) {
+      setError("Please fill in both email and password.");
+      return;
     }
+    setError("");
+    loginMutation.mutate(loginData);
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="p-4">Welcome ! </CardTitle>
+        <CardTitle className="p-4">Welcome Back!</CardTitle>
         <CardDescription className="p-4">
-          Please enter your username and password
+          Please enter your email and password
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-2">
+      <CardContent className="space-y-4">
         <div className="space-y-1">
-          <Label htmlFor="username">Username</Label>
+          <Label htmlFor="email">Email</Label>
           <Input
-            id="username"
-            value={loginData.username}
+            id="email"
+            type="email"
+            value={loginData.email}
             onChange={(e) =>
-              setLoginData({ ...loginData, username: e.target.value })
+              setLoginData({ ...loginData, email: e.target.value })
             }
+            placeholder="Enter your email"
+            required
+            aria-invalid={error ? "true" : "false"}
+            aria-describedby="email-error"
           />
+          {error && (
+            <p id="email-error" className="text-red-600 text-sm">
+              {error}
+            </p>
+          )}
         </div>
         <div className="space-y-1">
           <Label htmlFor="password">Password</Label>
@@ -75,12 +95,26 @@ const LoginForm = () => {
             onChange={(e) =>
               setLoginData({ ...loginData, password: e.target.value })
             }
+            placeholder="Enter your password"
+            required
+            aria-invalid={error ? "true" : "false"}
+            aria-describedby="password-error"
           />
+          {error && (
+            <p id="password-error" className="text-red-600 text-sm">
+              {error}
+            </p>
+          )}
         </div>
       </CardContent>
-      <div className="text-red-600 pb-4">{error}</div>
       <CardFooter>
-        <Button onClick={handleLoginSubmit}>Login</Button>
+        <Button
+          onClick={handleLoginSubmit}
+          disabled={loginMutation.isPending}
+          className="w-full"
+        >
+          {loginMutation.isPending ? "Logging in..." : "Login"}
+        </Button>
       </CardFooter>
     </Card>
   );
