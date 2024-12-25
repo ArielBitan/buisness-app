@@ -30,7 +30,9 @@ const BusinessDetailsPage = () => {
   return (
     <div className="flex flex-col items-center justify-center p-6 px-20 gap-4">
       <div className="text-4xl font-bold">{business.name}</div>
-      <BusinessUpdateAndDelete businessId={id} />
+      <div className="flex items-center justify-end w-full">
+        <BusinessUpdateAndDelete businessId={id} />
+      </div>
       <BusinessDetailsImage
         image={business.image}
         name={business.name}

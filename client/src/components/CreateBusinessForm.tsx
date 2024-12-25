@@ -32,7 +32,21 @@ const formSchema = z.object({
   }),
 });
 
+export const PLAN_LIMITS = {
+  Default: 0,
+  Standard: 5,
+  Gold: 10,
+  Platinum: 20,
+};
+
 export const CreateBusinessForm = () => {
+  const { user } = useUser();
+  if (!user) {
+    return;
+  }
+  const planLimit = PLAN_LIMITS[user.plan];
+  console.log(user.businessCount);
+  const remainingPosts = planLimit - user.businessCount;
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,66 +73,83 @@ export const CreateBusinessForm = () => {
     createNewBusiness.mutate(data);
   };
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Business Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Business Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <>
+      <div className="mb-4">
+        <h2 className="text-xl font-bold">Welcome, {user.email}!</h2>
+        <p>
+          Plan: {user.plan} <br />
+          Remaining posts: {remainingPosts}/{planLimit}
+        </p>
+      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Business Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Business Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Business Description" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Business Description" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Category</FormLabel>
-              <FormControl>
-                <Input placeholder="Category Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Category</FormLabel>
+                <FormControl>
+                  <Input placeholder="Category Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Image URL</FormLabel>
-              <FormControl>
-                <Input placeholder="https://example.com/image.jpg" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Image URL</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="https://example.com/image.jpg"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {remainingPosts > 0 ? (
+            <Button type="submit">Submit</Button>
+          ) : (
+            <Button disabled={true}>
+              You've reached your business limit , please upgrade plan
+            </Button>
           )}
-        />
-
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </>
   );
 };

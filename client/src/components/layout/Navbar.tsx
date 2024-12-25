@@ -59,7 +59,7 @@ const Navbar = () => {
     };
     fetchUserData();
   }, []);
-
+  console.log(user);
   if (isLoading) {
     return (
       <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">

@@ -60,7 +60,7 @@ const BusinessUpdateAndDelete: React.FC<BusinessUpdateAndDeleteProps> = ({
     <div>
       {isOwner && (
         <FaTrash
-          className="hover:scale-110 hover:cursor-pointer"
+          className="hover:scale-110 hover:cursor-pointer text-red-500"
           onClick={handleDeleteBusiness}
           aria-label="Delete Business"
         />

@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 import mongoose, { Document } from "mongoose";
 
-export type Plan = "Normal" | "Standard" | "Gold" | "Platinum";
+export type Plan = "Default" | "Standard" | "Gold" | "Platinum";
 
 export interface I_UserDocument extends Document {
   _id: mongoose.Types.ObjectId;
@@ -14,3 +14,10 @@ export interface I_UserDocument extends Document {
 }
 
 export type I_UserWithoutPassword = Omit<I_UserDocument, "password">;
+
+export const PLAN_LIMITS = {
+  Default: 0,
+  Standard: 5,
+  Gold: 10,
+  Platinum: 20,
+};

@@ -26,8 +26,8 @@ const userSchema: mongoose.Schema<I_UserDocument> = new mongoose.Schema(
     },
     plan: {
       type: String,
-      enum: ["Normal", "Standard", "Gold", "Platinum"],
-      default: "Normal",
+      enum: ["Default", "Standard", "Gold", "Platinum"],
+      default: "Default",
     },
     savedBusinesses: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Business" },

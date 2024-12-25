@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model";
+import Business from "../models/business.model";
 
 // Signup Service
 export const signupUser = async (
@@ -31,7 +32,7 @@ export const loginUser = async (email: string, password: string) => {
   if (!user) {
     throw new Error("User not found");
   }
-
+  const businessCount = await Business.countDocuments({ owner: user._id });
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
@@ -44,6 +45,7 @@ export const loginUser = async (email: string, password: string) => {
       email,
       _id: user._id,
       plan: user.plan,
+      businessCount,
     },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }

@@ -1,4 +1,4 @@
-export type Plan = "Normal" | "Standard" | "Gold" | "Platinum";
+export type Plan = "Default" | "Standard" | "Gold" | "Platinum";
 
 export interface IUser {
   _id: string;
@@ -7,4 +7,6 @@ export interface IUser {
   plan: Plan;
   savedBusinesses: string[];
   createdAt: string;
+  businessCount: number;
+  email: string;
 }

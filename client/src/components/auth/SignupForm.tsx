@@ -13,16 +13,18 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { signUpUser } from "@/services/user.service";
+import PlanSelector from "../PlanSelector";
 
-interface signupFormProps {
+interface SignupFormProps {
   setOpenTab: (value: string) => void;
 }
 
-const SignupForm: React.FC<signupFormProps> = ({ setOpenTab }) => {
+const SignupForm: React.FC<SignupFormProps> = ({ setOpenTab }) => {
   const { toast } = useToast();
   const [signUpData, setSignUpData] = useState({
     email: "",
     password: "",
+    plan: "default", // Default selected plan
   });
   const [error, setError] = useState("");
 
@@ -56,7 +58,7 @@ const SignupForm: React.FC<signupFormProps> = ({ setOpenTab }) => {
       <CardHeader>
         <CardTitle className="p-4">Register</CardTitle>
         <CardDescription className="p-4">
-          Please enter email and password
+          Please enter email, password, and select a plan.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -82,6 +84,10 @@ const SignupForm: React.FC<signupFormProps> = ({ setOpenTab }) => {
             }
           />
         </div>
+        <PlanSelector
+          selectedPlan={signUpData.plan}
+          setSelectedPlan={(plan) => setSignUpData({ ...signUpData, plan })}
+        />
       </CardContent>
       <div className="text-red-600 pb-4">{error}</div>
       <CardFooter>

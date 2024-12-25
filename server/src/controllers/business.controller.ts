@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import * as businessService from "../services/business.service";
 import Business from "../models/business.model";
+import User from "../models/user.model";
+import { PLAN_LIMITS } from "../types/user.types";
 
 // Get businesses with optional filters
 export const getBusinesses = async (req: Request, res: Response) => {
@@ -71,6 +73,18 @@ export const createBusiness = async (req: Request, res: Response) => {
     const { name, description, category, image } = req.body;
     console.log(req.body);
     const owner = req.user._id;
+    const user = await User.findById(owner);
+
+    const businessCount = await Business.countDocuments({ owner });
+    const planLimit = PLAN_LIMITS[user.plan];
+
+    if (businessCount >= planLimit) {
+      res.status(403).json({
+        message: `Limit reached. Your plan (${user.plan}) allows only ${planLimit} businesses.`,
+      });
+      return;
+    }
+
     const newBusiness = await businessService.createBusiness(
       name,
       description,
