@@ -42,6 +42,13 @@ export const createBusiness = async (
   }
 };
 
+export const checkBusinessOwnership = async (
+  businessId: string
+): Promise<boolean> => {
+  const { data } = await api.get(`/businesses/${businessId}/is-owner`);
+  return data;
+};
+
 // Function to update an existing business
 export const updateBusiness = async (
   businessId: string,

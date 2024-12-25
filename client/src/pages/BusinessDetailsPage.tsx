@@ -5,6 +5,7 @@ import { Loader } from "lucide-react";
 import ErrorMessage from "@/components/ErrorMessage";
 import BusinessDetailsImage from "@/components/BusinessDetailsImage";
 import ReviewList from "@/components/ReviewList";
+import BusinessUpdateAndDelete from "@/components/BusinessUpdateAndDelete";
 
 const BusinessDetailsPage = () => {
   const { id } = useParams();
@@ -29,6 +30,7 @@ const BusinessDetailsPage = () => {
   return (
     <div className="flex flex-col items-center justify-center p-6 px-20 gap-4">
       <div className="text-4xl font-bold">{business.name}</div>
+      <BusinessUpdateAndDelete businessId={id} />
       <BusinessDetailsImage
         image={business.image}
         name={business.name}

@@ -13,7 +13,7 @@ router.get("/:id", businessController.getBusinessById);
 router.post("/", authenticateUser, businessController.createBusiness);
 
 router.get(
-  "/:id/check-owner",
+  "/:id/is-owner",
   authenticateUser,
   businessController.checkBusinessOwnership
 );
