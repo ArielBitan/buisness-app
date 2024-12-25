@@ -5,14 +5,18 @@ import ErrorMessage from "./ErrorMessage";
 import { Link } from "react-router-dom";
 import BusinessCard from "./BusinessCard";
 
-const BusinessList = () => {
+interface BusinessListProps {
+  limit: number;
+}
+
+const BusinessList: React.FC<BusinessListProps> = ({ limit }) => {
   const {
     data: businesses,
     status,
     error,
   } = useQuery({
     queryKey: ["businesses"],
-    queryFn: () => fetchAllBusinesses(4),
+    queryFn: () => fetchAllBusinesses(limit),
   });
 
   if (status === "pending") return <Loader />;

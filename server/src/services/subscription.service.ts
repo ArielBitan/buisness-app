@@ -63,3 +63,14 @@ export const unsubscribeFromBusiness = async (
     throw new Error(err.message || "Failed to unsubscribe from business");
   }
 };
+
+export const isSubscribed = async (
+  userId: string,
+  businessId: string
+): Promise<boolean> => {
+  const subscription = await Subscriber.findOne({
+    user: userId,
+    business: businessId,
+  });
+  return !!subscription;
+};

@@ -13,9 +13,7 @@ export const authenticateUser = (
     const token = cookies.jwt;
 
     if (!token) {
-      res
-        .status(401)
-        .json({ message: "Session expired. Please log in again." });
+      res.status(401).json({ message: "Please log in to continue" });
       return;
     }
 

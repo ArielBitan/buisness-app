@@ -8,6 +8,7 @@ import { Loader } from "lucide-react";
 import ErrorMessage from "@/components/ErrorMessage";
 import { IReview } from "@/types/business.type";
 import Comment from "@/components/Comment";
+import BusinessDetailsImage from "@/components/BusinessDetailsImage";
 
 const BusinessDetailsPage = () => {
   const { id } = useParams();
@@ -50,13 +51,11 @@ const BusinessDetailsPage = () => {
   return (
     <div className="flex flex-col items-center justify-center p-6 px-20 gap-4">
       <div className="text-4xl font-bold">{business.name}</div>
-      <div className="w-full h-[400px]">
-        <img
-          className="object-cover w-full h-full"
-          src={business.image}
-          alt={business.name}
-        ></img>
-      </div>
+      <BusinessDetailsImage
+        image={business.image}
+        name={business.name}
+        businessId={business._id}
+      />
       <div className="text-2xl px-20 mt-4 text-primary/85">
         {business.description}
       </div>

@@ -85,7 +85,7 @@ export const subscribeToBusiness = async (
 ): Promise<ISubscription> => {
   try {
     const { data } = await api.post<ISubscription>(
-      `/businesses/subscription/${businessId}`
+      `/businesses/${businessId}/subscribe`
     );
     return data;
   } catch (error) {
@@ -95,6 +95,16 @@ export const subscribeToBusiness = async (
     );
     throw error;
   }
+};
+
+export const checkSubscriptionStatus = async (
+  businessId: string
+): Promise<boolean> => {
+  const { data } = await api.get(
+    `/businesses/${businessId}/subscription-status`
+  );
+
+  return data;
 };
 
 // Function to fetch all subscriptions for the current user

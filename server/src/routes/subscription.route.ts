@@ -6,18 +6,11 @@ import { authenticateUser } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
-// POST /businesses/:id/subscribe - Subscribe to a business
+// POST /businesses/:id/subscribe - toggle subscription
 router.post(
   "/:id/subscribe",
   authenticateUser,
-  subscriptionController.subscribe
-);
-
-// DELETE /businesses/:id/unsubscribe - Unsubscribe from a business
-router.delete(
-  "/:id/unsubscribe",
-  authenticateUser,
-  subscriptionController.unsubscribe
+  subscriptionController.toggleSubscription
 );
 
 // GET /businesses/:id/subscribers - Get all subscribers of a business
@@ -25,6 +18,13 @@ router.get(
   "/:id/subscribers",
   authenticateUser,
   subscriptionController.getSubscribers
+);
+
+// Get - check if user is subscribed to post
+router.get(
+  "/:id/subscription-status",
+  authenticateUser,
+  subscriptionController.checkSubscription
 );
 
 export default router;

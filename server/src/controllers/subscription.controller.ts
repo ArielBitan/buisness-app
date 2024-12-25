@@ -27,32 +27,35 @@ export const getSubscribers = async (req: Request, res: Response) => {
   }
 };
 
-// Subscribe to a business
-export const subscribe = async (req: Request, res: Response) => {
+export const checkSubscription = async (req: Request, res: Response) => {
   const _id = req.user?.userId.toString();
   const { id } = req.params;
-
-  try {
-    const subscription = await subscriptionService.subscribeToBusiness(_id, id);
-    res.status(201).json(subscription);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const isSubscribed = await subscriptionService.isSubscribed(_id, id);
+  res.status(200).json(isSubscribed);
 };
 
-// Unsubscribe from a business
-export const unsubscribe = async (req: Request, res: Response) => {
+export const toggleSubscription = async (req: Request, res: Response) => {
   const _id = req.user?.userId.toString();
   const { id } = req.params;
 
   try {
-    const subscription = await subscriptionService.unsubscribeFromBusiness(
-      _id,
-      id
-    );
-    res
-      .status(200)
-      .json({ message: "Unsubscribed successfully", subscription });
+    // Check if the user is already subscribed
+    const isSubscribed = await subscriptionService.isSubscribed(_id, id);
+
+    let subscription;
+    let message;
+
+    if (isSubscribed) {
+      // Unsubscribe if already subscribed
+      subscription = await subscriptionService.unsubscribeFromBusiness(_id, id);
+      message = "Unsubscribed successfully";
+    } else {
+      // Subscribe if not subscribed
+      subscription = await subscriptionService.subscribeToBusiness(_id, id);
+      message = "Subscribed successfully";
+    }
+
+    res.status(200).json({ message, subscription });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -22,7 +22,7 @@ const HomePage = () => {
         <h2 className="text-4xl text-center mb-9 font-semibold">
           Featured Businesses
         </h2>
-        <BusinessList />
+        <BusinessList limit={4} />
       </section>
 
       {/* How It Works */}
