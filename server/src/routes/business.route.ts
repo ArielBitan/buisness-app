@@ -1,7 +1,6 @@
 import express from "express";
 import * as businessController from "../controllers/business.controller";
 import { authenticateUser } from "../middleware/authMiddleware";
-import { checkBusinessOwner } from "../middleware/authorizationMiddleware";
 
 const router = express.Router();
 
@@ -13,20 +12,16 @@ router.get("/:id", businessController.getBusinessById);
 // Create business (authenticated)
 router.post("/", authenticateUser, businessController.createBusiness);
 
-// Route to update business by ID (authenticated, owner only)
-router.put(
-  "/:id",
+router.get(
+  "/:id/check-owner",
   authenticateUser,
-  checkBusinessOwner,
-  businessController.updateBusiness
+  businessController.checkBusinessOwnership
 );
 
+// Route to update business by ID (authenticated, owner only)
+router.put("/:id", authenticateUser, businessController.updateBusiness);
+
 // Route to delete business by ID (authenticated, owner only)
-router.delete(
-  "/:id",
-  authenticateUser,
-  checkBusinessOwner,
-  businessController.deleteBusiness
-);
+router.delete("/:id", authenticateUser, businessController.deleteBusiness);
 
 export default router;

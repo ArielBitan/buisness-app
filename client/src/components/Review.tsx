@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface ReviewProps {
   _id: string;
   name: string;
-  postId: string | undefined;
+  businessId: string | undefined;
   content: string;
   profilePic: string;
 }
@@ -17,7 +17,7 @@ const Review: React.FC<ReviewProps> = ({
   content,
   profilePic,
   _id,
-  postId,
+  businessId,
 }) => {
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const { user } = useUser();
@@ -41,8 +41,8 @@ const Review: React.FC<ReviewProps> = ({
   const deleteReviewMutation = useMutation({
     mutationFn: deleteReview,
     onSuccess: () => {
-      if (postId) {
-        queryClient.invalidateQueries({ queryKey: ["reviews", postId] });
+      if (businessId) {
+        queryClient.invalidateQueries({ queryKey: ["reviews", businessId] });
       }
     },
     onError: (error) => {

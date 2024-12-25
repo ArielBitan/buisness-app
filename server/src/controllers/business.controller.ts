@@ -43,6 +43,28 @@ export const getBusinessById = async (req: Request, res: Response) => {
   }
 };
 
+export const checkBusinessOwnership = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const userId = req.user._id;
+  try {
+    const isOwner = await businessService.checkBusinessOwnerService(id, userId);
+
+    if (!isOwner) {
+      res.status(403).json({
+        error: "You are not authorized to perform this action",
+      });
+      return;
+    }
+
+    res.status(200).json({ message: "You own this business" });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while checking ownership" });
+  }
+};
+
 // Create a new business (authenticated, owner only)
 export const createBusiness = async (req: Request, res: Response) => {
   try {

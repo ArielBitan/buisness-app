@@ -15,6 +15,22 @@ export const getBusinesses = async (
   }
 };
 
+export const checkBusinessOwnerService = async (
+  businessId: string,
+  userId: string
+) => {
+  try {
+    const business = await Business.findById(businessId);
+
+    if (!business) {
+      throw new Error("Business not found");
+    }
+    return business.owner.toString() === userId;
+  } catch (err) {
+    throw new Error("Error checking business ownership");
+  }
+};
+
 // Create a new business
 export const createBusiness = async (
   name: string,
