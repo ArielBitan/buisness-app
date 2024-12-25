@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import {
-  subscribeToBusiness,
-  checkSubscriptionStatus,
-} from "@/services/business.service";
+
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 import { useUser } from "@/context/userContext";
+import {
+  checkSubscriptionStatus,
+  subscribeToBusiness,
+} from "@/services/subscription.service";
 
 interface BusinessDetailsImage {
   businessId: string;

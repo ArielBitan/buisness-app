@@ -53,10 +53,14 @@ export const updateReview = async (
 
 // Delete a review
 export const deleteReview = async (
-  reviewId: string
+  reviewId: string,
+  userId: string
 ): Promise<I_ReviewSchema | null> => {
   try {
-    const deletedReview = await Review.findByIdAndDelete(reviewId);
+    const deletedReview = await Review.findOneAndDelete({
+      _id: reviewId,
+      user: userId,
+    });
     if (!deletedReview) {
       throw new Error("Review not found");
     }
@@ -64,4 +68,15 @@ export const deleteReview = async (
   } catch (err) {
     throw new Error("Failed to delete review");
   }
+};
+
+export const isReviewOwner = async (
+  userId: string,
+  reviewId: string
+): Promise<boolean> => {
+  const isOwner = await Review.findOne({
+    user: userId,
+    _id: reviewId,
+  });
+  return !!isOwner;
 };

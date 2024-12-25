@@ -11,9 +11,15 @@ router.post("/:businessId", authenticateUser, reviewController.createReview);
 router.get("/:businessId", reviewController.getReviewsByBusiness);
 
 // Update a review
-router.put("/:reviewId", reviewController.updateReview);
+router.put("/:reviewId", authenticateUser, reviewController.updateReview);
 
 // Delete a review
-router.delete("/:reviewId", reviewController.deleteReview);
+router.delete("/:reviewId", authenticateUser, reviewController.deleteReview);
+
+router.get(
+  "/:id/is-owner",
+  authenticateUser,
+  reviewController.checkReviewOwnership
+);
 
 export default router;

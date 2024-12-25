@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { IBusiness, IReview, ISubscription } from "@/types/business.type";
+import { IBusiness } from "@/types/business.type";
 
 // Function to fetch all businesses
 export const fetchAllBusinesses = async (
@@ -40,18 +40,6 @@ export const createBusiness = async (
   }
 };
 
-export const fetchBusinessReviews = async (
-  businessId: string
-): Promise<IReview[]> => {
-  try {
-    const { data } = await api.get<IReview[]>(`/reviews/${businessId}`);
-    return data;
-  } catch (error) {
-    console.error("Error fetching reviews:", error);
-    throw error;
-  }
-};
-
 // Function to update an existing business
 export const updateBusiness = async (
   businessId: string,
@@ -76,61 +64,5 @@ export const deleteBusiness = async (businessId: string): Promise<void> => {
   } catch (error) {
     console.error(`Error deleting business with ID ${businessId}:`, error);
     throw error;
-  }
-};
-
-// Function to subscribe to a business
-export const subscribeToBusiness = async (
-  businessId: string
-): Promise<ISubscription> => {
-  try {
-    const { data } = await api.post<ISubscription>(
-      `/businesses/${businessId}/subscribe`
-    );
-    return data;
-  } catch (error) {
-    console.error(
-      `Error subscribing to business with ID ${businessId}:`,
-      error
-    );
-    throw error;
-  }
-};
-
-export const checkSubscriptionStatus = async (
-  businessId: string
-): Promise<boolean> => {
-  const { data } = await api.get(
-    `/businesses/${businessId}/subscription-status`
-  );
-
-  return data;
-};
-
-// Function to fetch all subscriptions for the current user
-export const fetchUserSubscriptions = async (): Promise<ISubscription[]> => {
-  try {
-    const { data } = await api.get<ISubscription[]>("/businesses/subscription");
-    return data;
-  } catch (error) {
-    console.error("Error fetching user subscriptions:", error);
-    throw error;
-  }
-};
-
-export const postReview = async ({
-  businessId,
-  content,
-}: {
-  businessId: string;
-  content: string;
-}): Promise<void> => {
-  try {
-    const response = await api.post(`/reviews/${businessId}`, {
-      content,
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to post review");
   }
 };

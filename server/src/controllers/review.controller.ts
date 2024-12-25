@@ -24,6 +24,13 @@ export const createReview = async (req: Request, res: Response) => {
   }
 };
 
+export const checkReviewOwnership = async (req: Request, res: Response) => {
+  const _id = req.user?.userId.toString();
+  const { id } = req.params;
+  const isSubscribed = await reviewService.isReviewOwner(_id, id);
+  res.status(200).json(isSubscribed);
+};
+
 // Get all reviews for a specific business
 export const getReviewsByBusiness = async (req: Request, res: Response) => {
   try {
@@ -61,7 +68,8 @@ export const updateReview = async (req: Request, res: Response) => {
 export const deleteReview = async (req: Request, res: Response) => {
   try {
     const { reviewId } = req.params;
-    const deletedReview = await reviewService.deleteReview(reviewId);
+    const userId = req.user.userId;
+    const deletedReview = await reviewService.deleteReview(reviewId, userId);
 
     if (!deletedReview) {
       res.status(404).json({ error: "Review not found" });

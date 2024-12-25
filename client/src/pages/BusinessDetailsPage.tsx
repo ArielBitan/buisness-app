@@ -1,17 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import {
-  fetchBusinessById,
-  fetchBusinessReviews,
-  postReview,
-} from "@/services/business.service";
+import { fetchBusinessById } from "@/services/business.service";
 import { Loader } from "lucide-react";
 import ErrorMessage from "@/components/ErrorMessage";
 import { IReview } from "@/types/business.type";
 import Review from "@/components/Review";
 import BusinessDetailsImage from "@/components/BusinessDetailsImage";
 import { Button } from "@/components/ui/button";
+import { fetchBusinessReviews, postReview } from "@/services/review.service";
 
 const BusinessDetailsPage = () => {
   const { id } = useParams();
@@ -105,6 +102,8 @@ const BusinessDetailsPage = () => {
         {reviews?.map((review: IReview) => (
           <li key={review._id} className="mb-2">
             <Review
+              _id={review._id}
+              postId={id}
               name={review.user.name}
               content={review.content}
               profilePic={review.user.profilePic}
