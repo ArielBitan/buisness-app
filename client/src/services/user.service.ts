@@ -1,5 +1,6 @@
 import api from "@/lib/api";
 import { IUser } from "@/types/user.type";
+import { useUser } from "@/context/userContext";
 
 // Function to sign up a new user
 export const signUpUser = async (userData: {
@@ -36,6 +37,7 @@ export const loginUser = async (credentials: {
 // Function to log out a user
 export const logoutUser = async (): Promise<void> => {
   try {
+    const { setUser } = useUser();
     await api.post("/user/auth/logout");
   } catch (error) {
     console.error("Error logging out:", error);

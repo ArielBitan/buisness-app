@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "./ThemeProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
 import { useUser } from "@/context/userContext";
 import {
@@ -16,8 +16,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { LogOut } from "lucide-react";
 import { IUser } from "@/types/user.type";
+import { useToast } from "@/hooks/use-toast";
+import { logoutUser } from "@/services/user.service";
 
 const UserMenu = ({ user }: { user: IUser }) => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    logoutUser();
+    navigate("/login");
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -38,7 +47,10 @@ const UserMenu = ({ user }: { user: IUser }) => {
         <DropdownMenuItem className="mb-1 hover:bg-primary/10 rounded">
           <Link to="/profile">Profile</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="flex gap-2 hover:cursor-pointer hover:bg-primary/10 rounded">
+        <DropdownMenuItem
+          onClick={handleLogout}
+          className="flex gap-2 hover:cursor-pointer hover:bg-primary/10 rounded"
+        >
           <LogOut />
           <span>Logout</span>
         </DropdownMenuItem>
