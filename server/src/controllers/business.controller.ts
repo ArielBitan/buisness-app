@@ -46,13 +46,14 @@ export const getBusinessById = async (req: Request, res: Response) => {
 // Create a new business (authenticated, owner only)
 export const createBusiness = async (req: Request, res: Response) => {
   try {
-    const { name, description, category } = req.body;
-    const owner = req.user.userId;
-    console.log(req.user);
+    const { name, description, category, image } = req.body;
+    console.log(req.body);
+    const owner = req.user._id;
     const newBusiness = await businessService.createBusiness(
       name,
       description,
       category,
+      image,
       owner
     );
     res.status(201).json(newBusiness);

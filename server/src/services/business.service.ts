@@ -20,6 +20,7 @@ export const createBusiness = async (
   name: string,
   description: string,
   category: string,
+  image: string,
   owner: string
 ) => {
   try {
@@ -27,6 +28,7 @@ export const createBusiness = async (
       name,
       description,
       category,
+      image,
       owner,
     });
     return newBusiness;

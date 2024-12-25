@@ -28,14 +28,14 @@ export const getSubscribers = async (req: Request, res: Response) => {
 };
 
 export const checkSubscription = async (req: Request, res: Response) => {
-  const _id = req.user?.userId.toString();
+  const _id = req.user?._id.toString();
   const { id } = req.params;
   const isSubscribed = await subscriptionService.isSubscribed(_id, id);
   res.status(200).json(isSubscribed);
 };
 
 export const toggleSubscription = async (req: Request, res: Response) => {
-  const _id = req.user?.userId.toString();
+  const _id = req.user?._id.toString();
   const { id } = req.params;
 
   try {

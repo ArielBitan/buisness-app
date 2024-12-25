@@ -56,7 +56,7 @@ const Review: React.FC<ReviewProps> = ({
   return (
     <div className="bg-primary/20 p-6 rounded font-poppins">
       <div className="flex items-center gap-2 justify-between">
-        <div>
+        <div className="flex items-center gap-2">
           <Avatar className="pb-4 px-2">
             <AvatarImage
               className="rounded-full w-10 h-10"
@@ -65,7 +65,7 @@ const Review: React.FC<ReviewProps> = ({
             />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <span className="font-extrabold mb-2">{name} : </span>
+          <span className="font-extrabold text-lg mb-2">{name} : </span>
         </div>
         {isOwner && (
           <FaTrash

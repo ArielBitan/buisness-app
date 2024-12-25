@@ -99,12 +99,21 @@ const Navbar = () => {
         <ul
           className={`${
             isMenuOpen ? "block" : "hidden"
-          } md:flex items-center space-y-4 md:space-y-0 absolute md:static top-16 right-0 bg-background md:bg-transparent w-full md:w-auto p-4 md:p-0 shadow-md md:shadow-none z-50`}
+          } md:flex items-center space-y-4 gap-4 md:space-y-0 absolute md:static top-16 right-0 bg-background md:bg-transparent w-full md:w-auto p-4 md:p-0 shadow-md md:shadow-none z-50`}
         >
           <li>
             <a
+              href="/create-business"
+              className="relative font-bold hover:text-primary after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+            >
+              Add Business
+            </a>
+          </li>
+
+          <li>
+            <a
               href="/businesses"
-              className="relative font-bold hover:text-primary py-2 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+              className="relative font-bold hover:text-primary after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
             >
               Businesses
             </a>
@@ -112,7 +121,7 @@ const Navbar = () => {
           <li>
             <a
               href="/about"
-              className="relative font-bold hover:text-primary px-4 py-2 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
+              className="relative font-bold hover:text-primary after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-primary after:origin-right after:transition-all after:duration-300 hover:after:w-full"
             >
               About
             </a>

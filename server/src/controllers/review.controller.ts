@@ -5,7 +5,7 @@ export const createReview = async (req: Request, res: Response) => {
   try {
     const { businessId } = req.params;
     const { content } = req.body;
-    const user = req.user.userId;
+    const user = req.user._id;
 
     if (!businessId || !content) {
       res.status(400).json({ error: "Business ID and content are required" });
@@ -25,7 +25,7 @@ export const createReview = async (req: Request, res: Response) => {
 };
 
 export const checkReviewOwnership = async (req: Request, res: Response) => {
-  const _id = req.user?.userId.toString();
+  const _id = req.user?._id.toString();
   const { id } = req.params;
   const isSubscribed = await reviewService.isReviewOwner(_id, id);
   res.status(200).json(isSubscribed);
@@ -68,7 +68,7 @@ export const updateReview = async (req: Request, res: Response) => {
 export const deleteReview = async (req: Request, res: Response) => {
   try {
     const { reviewId } = req.params;
-    const userId = req.user.userId;
+    const userId = req.user._id;
     const deletedReview = await reviewService.deleteReview(reviewId, userId);
 
     if (!deletedReview) {

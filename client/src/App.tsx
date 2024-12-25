@@ -5,6 +5,7 @@ import BusinessesPage from "./pages/BusinessesPage";
 import { Toaster } from "./components/ui/toaster";
 import LoginPage from "./pages/LoginPage";
 import BusinessDetailsPage from "./pages/BusinessDetailsPage";
+import CreateBusinessPage from "./pages/CreateBusinessPage";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/businesses" element={<BusinessesPage />} />
+        <Route path="/create-business" element={<CreateBusinessPage />} />
         <Route path="/businesses/:id" element={<BusinessDetailsPage />} />
       </Routes>
     </div>
