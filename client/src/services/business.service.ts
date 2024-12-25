@@ -117,3 +117,20 @@ export const fetchUserSubscriptions = async (): Promise<ISubscription[]> => {
     throw error;
   }
 };
+
+export const postReview = async ({
+  businessId,
+  content,
+}: {
+  businessId: string;
+  content: string;
+}): Promise<void> => {
+  try {
+    const response = await api.post(`/reviews/${businessId}`, {
+      content,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to post review");
+  }
+};

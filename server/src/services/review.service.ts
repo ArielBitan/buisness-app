@@ -2,9 +2,11 @@ import Review from "../models/review.model";
 import { I_ReviewSchema } from "../types/review.types";
 
 // Create a new review
-export const createReview = async (
-  data: Partial<I_ReviewSchema>
-): Promise<I_ReviewSchema> => {
+export const createReview = async (data: {
+  user: string;
+  business: string;
+  content: string;
+}): Promise<I_ReviewSchema> => {
   try {
     const review = await Review.create(data);
     return review;
@@ -18,10 +20,9 @@ export const getReviewsByBusiness = async (
   businessId: string
 ): Promise<I_ReviewSchema[]> => {
   try {
-    const reviews = await Review.find({ business: businessId }).populate(
-      "user",
-      "name email profilePic"
-    );
+    const reviews = await Review.find({ business: businessId })
+      .populate("user", "name email profilePic")
+      .sort({ createdAt: -1 });
     return reviews;
   } catch (err) {
     throw new Error("Failed to get reviews");

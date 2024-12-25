@@ -1,18 +1,25 @@
 import { Request, Response } from "express";
-import * as reviewService from "../services/review.service";
+import * as reviewService from "../services/review.service"; // Adjust based on your actual file structure
 
-// Create a new review
 export const createReview = async (req: Request, res: Response) => {
   try {
-    const { user, business, content } = req.body;
+    const { businessId } = req.params;
+    const { content } = req.body;
+    const user = req.user.userId;
+
+    if (!businessId || !content) {
+      res.status(400).json({ error: "Business ID and content are required" });
+      return;
+    }
     const review = await reviewService.createReview({
       user,
-      business,
+      business: businessId,
       content,
     });
+
     res.status(201).json(review);
   } catch (err) {
-    console.error(err);
+    console.error("Error creating review:", err);
     res.status(500).json({ error: "Failed to create review" });
   }
 };

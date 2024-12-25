@@ -26,7 +26,6 @@ const BusinessDetailsImage: React.FC<BusinessDetailsImage> = ({
     const fetchSubscriptionStatus = async () => {
       try {
         const subscribed = await checkSubscriptionStatus(businessId);
-        console.log(subscribed);
         setIsSubscribed(subscribed);
       } catch (err) {
         console.error("Error checking subscription status:", err);

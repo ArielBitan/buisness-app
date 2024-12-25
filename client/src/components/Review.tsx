@@ -1,12 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import React from "react";
 
-interface CommentProps {
+interface ReviewProps {
   name: string;
   content: string;
   profilePic: string;
 }
-const Comment: React.FC<CommentProps> = ({ name, content, profilePic }) => {
+const Review: React.FC<ReviewProps> = ({ name, content, profilePic }) => {
   return (
     <div className="bg-primary/20 p-6 rounded font-poppins">
       <div className="flex items-center gap-2">
@@ -25,4 +25,4 @@ const Comment: React.FC<CommentProps> = ({ name, content, profilePic }) => {
   );
 };
 
-export default Comment;
+export default Review;

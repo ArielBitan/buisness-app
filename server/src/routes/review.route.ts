@@ -1,10 +1,11 @@
 import express from "express";
 import * as reviewController from "../controllers/review.controller";
+import { authenticateUser } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
 // Create a new review
-router.post("/", reviewController.createReview);
+router.post("/:businessId", authenticateUser, reviewController.createReview);
 
 // Get all reviews for a business
 router.get("/:businessId", reviewController.getReviewsByBusiness);
