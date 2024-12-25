@@ -1,14 +1,12 @@
 import api from "@/lib/api";
-import { IBusiness, ISubscription } from "@/types/business.type";
+import { IBusiness, IReview, ISubscription } from "@/types/business.type";
 
 // Function to fetch all businesses
 export const fetchAllBusinesses = async (
   limit?: number
 ): Promise<IBusiness[]> => {
   try {
-    const { data } = await api.get<IBusiness[]>(
-      `/business/businesses?limit=${limit}`
-    );
+    const { data } = await api.get<IBusiness[]>(`/businesses?limit=${limit}`);
     return data;
   } catch (error) {
     console.error("Error fetching businesses:", error);
@@ -21,7 +19,7 @@ export const fetchBusinessById = async (
   businessId: string
 ): Promise<IBusiness> => {
   try {
-    const { data } = await api.get<IBusiness>(`/business/${businessId}`);
+    const { data } = await api.get<IBusiness>(`/businesses/${businessId}`);
     return data;
   } catch (error) {
     console.error(`Error fetching business with ID ${businessId}:`, error);
@@ -34,10 +32,22 @@ export const createBusiness = async (
   businessData: Omit<IBusiness, "_id" | "createdAt" | "updatedAt">
 ): Promise<IBusiness> => {
   try {
-    const { data } = await api.post<IBusiness>("/business", businessData);
+    const { data } = await api.post<IBusiness>("/businesses", businessData);
     return data;
   } catch (error) {
     console.error("Error creating business:", error);
+    throw error;
+  }
+};
+
+export const fetchBusinessReviews = async (
+  businessId: string
+): Promise<IReview[]> => {
+  try {
+    const { data } = await api.get<IReview[]>(`/reviews/${businessId}`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
     throw error;
   }
 };
@@ -49,7 +59,7 @@ export const updateBusiness = async (
 ): Promise<IBusiness> => {
   try {
     const { data } = await api.put<IBusiness>(
-      `/business/${businessId}`,
+      `/businesses/${businessId}`,
       updatedData
     );
     return data;
@@ -62,7 +72,7 @@ export const updateBusiness = async (
 // Function to delete a business
 export const deleteBusiness = async (businessId: string): Promise<void> => {
   try {
-    await api.delete(`/business/${businessId}`);
+    await api.delete(`/businesses/${businessId}`);
   } catch (error) {
     console.error(`Error deleting business with ID ${businessId}:`, error);
     throw error;
@@ -75,7 +85,7 @@ export const subscribeToBusiness = async (
 ): Promise<ISubscription> => {
   try {
     const { data } = await api.post<ISubscription>(
-      `/business/subscription/${businessId}`
+      `/businesses/subscription/${businessId}`
     );
     return data;
   } catch (error) {
@@ -90,7 +100,7 @@ export const subscribeToBusiness = async (
 // Function to fetch all subscriptions for the current user
 export const fetchUserSubscriptions = async (): Promise<ISubscription[]> => {
   try {
-    const { data } = await api.get<ISubscription[]>("/business/subscription");
+    const { data } = await api.get<ISubscription[]>("/businesses/subscription");
     return data;
   } catch (error) {
     console.error("Error fetching user subscriptions:", error);

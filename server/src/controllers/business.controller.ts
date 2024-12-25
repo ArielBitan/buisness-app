@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import * as businessService from "../services/business.service";
+import Business from "../models/business.model";
 
 // Get businesses with optional filters
 export const getBusinesses = async (req: Request, res: Response) => {
@@ -25,6 +26,20 @@ export const getBusinesses = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to get businesses" });
+  }
+};
+
+export const getBusinessById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const business = await Business.findById(id);
+    if (!business) {
+      res.status(404).json({ error: "Business not found" });
+      return;
+    }
+    res.status(201).json(business);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get business" });
   }
 };
 

@@ -6,14 +6,16 @@ import { checkBusinessOwner } from "../middleware/authorizationMiddleware";
 const router = express.Router();
 
 // Get businesses
-router.get("/businesses", businessController.getBusinesses);
+router.get("/", businessController.getBusinesses);
+
+router.get("/:id", businessController.getBusinessById);
 
 // Create business (authenticated)
-router.post("/businesses", authenticateUser, businessController.createBusiness);
+router.post("/", authenticateUser, businessController.createBusiness);
 
 // Route to update business by ID (authenticated, owner only)
 router.put(
-  "/businesses/:id",
+  "/:id",
   authenticateUser,
   checkBusinessOwner,
   businessController.updateBusiness
@@ -21,7 +23,7 @@ router.put(
 
 // Route to delete business by ID (authenticated, owner only)
 router.delete(
-  "/businesses/:id",
+  "/:id",
   authenticateUser,
   checkBusinessOwner,
   businessController.deleteBusiness

@@ -15,3 +15,10 @@ export interface ISubscription {
   businessId: string;
   subscribedAt: string;
 }
+
+export interface IReview {
+  _id: string;
+  user: { name: string; email: string; _id: string; profilePic: string };
+  business: string;
+  content: string;
+}

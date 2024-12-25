@@ -1,36 +1,66 @@
 import Review from "../models/review.model";
 import { I_ReviewSchema } from "../types/review.types";
-import { Types } from "mongoose";
 
-export default class ReviewService {
-  // Create a new review
-  static async createReview(
-    data: Partial<I_ReviewSchema>
-  ): Promise<I_ReviewSchema> {
+// Create a new review
+export const createReview = async (
+  data: Partial<I_ReviewSchema>
+): Promise<I_ReviewSchema> => {
+  try {
     const review = await Review.create(data);
     return review;
+  } catch (err) {
+    throw new Error("Failed to create review");
   }
+};
 
-  // Get all reviews for a specific business
-  static async getReviewsByBusiness(
-    businessId: string
-  ): Promise<I_ReviewSchema[]> {
-    return await Review.find({ business: businessId }).populate(
+// Get all reviews for a specific business
+export const getReviewsByBusiness = async (
+  businessId: string
+): Promise<I_ReviewSchema[]> => {
+  try {
+    const reviews = await Review.find({ business: businessId }).populate(
       "user",
-      "name email"
+      "name email profilePic"
     );
+    return reviews;
+  } catch (err) {
+    throw new Error("Failed to get reviews");
   }
+};
 
-  // Update a review
-  static async updateReview(
-    reviewId: string,
-    content: string
-  ): Promise<I_ReviewSchema | null> {
-    return await Review.findByIdAndUpdate(reviewId, { content }, { new: true });
+// Update a review
+export const updateReview = async (
+  reviewId: string,
+  updatedData: Partial<I_ReviewSchema>
+): Promise<I_ReviewSchema | null> => {
+  try {
+    const updatedReview = await Review.findByIdAndUpdate(
+      reviewId,
+      updatedData,
+      {
+        new: true,
+      }
+    );
+    if (!updatedReview) {
+      throw new Error("Review not found");
+    }
+    return updatedReview;
+  } catch (err) {
+    throw new Error("Failed to update review");
   }
+};
 
-  // Delete a review
-  static async deleteReview(reviewId: string): Promise<I_ReviewSchema | null> {
-    return await Review.findByIdAndDelete(reviewId);
+// Delete a review
+export const deleteReview = async (
+  reviewId: string
+): Promise<I_ReviewSchema | null> => {
+  try {
+    const deletedReview = await Review.findByIdAndDelete(reviewId);
+    if (!deletedReview) {
+      throw new Error("Review not found");
+    }
+    return deletedReview;
+  } catch (err) {
+    throw new Error("Failed to delete review");
   }
-}
+};

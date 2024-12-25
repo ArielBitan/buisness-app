@@ -1,18 +1,18 @@
 import express from "express";
-import ReviewController from "../controllers/reviewController";
+import * as reviewController from "../controllers/review.controller";
 
 const router = express.Router();
 
 // Create a new review
-router.post("/", ReviewController.createReview);
+router.post("/", reviewController.createReview);
 
 // Get all reviews for a business
-router.get("/:businessId", ReviewController.getReviewsByBusiness);
+router.get("/:businessId", reviewController.getReviewsByBusiness);
 
 // Update a review
-router.put("/:reviewId", ReviewController.updateReview);
+router.put("/:reviewId", reviewController.updateReview);
 
 // Delete a review
-router.delete("/:reviewId", ReviewController.deleteReview);
+router.delete("/:reviewId", reviewController.deleteReview);
 
 export default router;
