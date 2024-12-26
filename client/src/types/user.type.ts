@@ -1,3 +1,5 @@
+import { IBusiness } from "./business.type";
+
 export type Plan = "Default" | "Standard" | "Gold" | "Platinum";
 
 export interface IUser {
@@ -8,4 +10,14 @@ export interface IUser {
   createdAt: string;
   businessCount: number;
   email: string;
+}
+
+export interface IUserProfile {
+  user: {
+    name: string;
+    profilePic: string;
+    email: string;
+  };
+  savedBusinesses: IBusiness[];
+  userBusinesses: IBusiness[];
 }

@@ -26,7 +26,6 @@ const BusinessCarousel = <T,>({
               className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
             >
               {renderItem(item)}
-              {/* Render the item using the passed function */}
             </CarouselItem>
           ))}
         </CarouselContent>

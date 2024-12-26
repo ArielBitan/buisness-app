@@ -10,13 +10,14 @@ import {
 } from "@/services/user.service";
 import BusinessCard from "@/components/BusinessCard";
 import { Link } from "react-router-dom";
+import { EditUserModal } from "@/components/EditUserModal";
 
 const ProfilePage = () => {
   const { id: userId } = useParams();
 
   // Consolidated query for user details and saved businesses
   const { data, status, error } = useQuery({
-    queryKey: ["userProfile", userId],
+    queryKey: ["user", userId],
     queryFn: async () => {
       if (!userId)
         return { user: null, savedBusinesses: [], userBusinesses: [] };
@@ -50,26 +51,29 @@ const ProfilePage = () => {
 
   return (
     <div className="mx-20 px-6 py-8 bg-primary/5 rounded-lg shadow-md mt-12">
-      <div className="flex items-center mb-6">
-        <div className="w-24 h-24 rounded-full overflow-hidden mr-6">
-          <img
-            src={user?.profilePic || "https://via.placeholder.com/150"}
-            alt={`${user?.name}'s profile`}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div>
-          <h1 className="text-3xl font-bold">{user?.name}</h1>
-          <p>{user?.email}</p>
-          <div className="mt-4">
-            <span className="inline-block px-3 py-1 text-sm font-semibold rounded-full bg-primary/60">
-              {user?.plan}
-            </span>
-            <p className="text-sm mt-1">
-              Member since: {new Date(user?.createdAt).toLocaleDateString()}
-            </p>
+      <div className="flex justify-between">
+        <div className="flex items-center mb-6">
+          <div className="w-24 h-24 rounded-full overflow-hidden mr-6">
+            <img
+              src={user?.profilePic || "https://via.placeholder.com/150"}
+              alt={`${user?.name}'s profile`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold">{user?.name}</h1>
+            <p>{user?.email}</p>
+            <div className="mt-4">
+              <span className="inline-block px-3 py-1 text-sm font-semibold rounded-full bg-primary/60">
+                {user?.plan}
+              </span>
+              <p className="text-sm mt-1">
+                Member since: {new Date(user?.createdAt).toLocaleDateString()}
+              </p>
+            </div>
           </div>
         </div>
+        <EditUserModal userId={userId} />
       </div>
 
       <div className="mt-6">

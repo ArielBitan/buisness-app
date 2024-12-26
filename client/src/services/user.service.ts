@@ -9,7 +9,17 @@ export const signUpUser = async (userData: {
 }): Promise<IUser> => {
   try {
     const { data } = await api.post<IUser>("/user/auth/signup", userData);
-    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error signing up:", error);
+    throw error;
+  }
+};
+
+export const updateUserDetails = async (updatedData: Partial<IUser>) => {
+  try {
+    const { name, email, profilePic } = updatedData;
+    const { data } = await api.put<IUser>("/user", { name, email, profilePic });
     return data;
   } catch (error) {
     console.error("Error signing up:", error);

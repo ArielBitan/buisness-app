@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import * as userService from "../services/user.service";
+import { profile } from "console";
 
 // Get user by id
 export const getUserById = async (req: Request, res: Response) => {
@@ -44,6 +45,28 @@ export const getUserBusinesses = async (req: Request, res: Response) => {
       res.status(404).json({ message: "no businesses found" });
     }
     res.status(200).json(businesses);
+  } catch (error) {
+    res.status(500).json({
+      error: error instanceof Error ? error.message : "Internal Server Error",
+    });
+  }
+};
+
+export const updateUserDetails = async (req: Request, res: Response) => {
+  try {
+    const _id = req.user?._id.toString();
+    console.log(req.body);
+    const { name, email, profilePic } = req.body;
+    if (!_id) {
+      res.status(404).json({ message: "no user found" });
+    }
+    const updatedUser = userService.updateUserDetails(
+      _id,
+      name,
+      email,
+      profilePic
+    );
+    res.status(200).json(updatedUser);
   } catch (error) {
     res.status(500).json({
       error: error instanceof Error ? error.message : "Internal Server Error",

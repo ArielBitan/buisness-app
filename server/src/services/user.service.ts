@@ -58,6 +58,26 @@ export const getUserBusinesses = async (id: string) => {
   }
 };
 
+export const updateUserDetails = async (
+  id: string,
+  name: string,
+  email: string,
+  profilePic: string
+) => {
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { name, email, profilePic }
+    );
+    if (!user) {
+      throw new Error("User doesn't exist");
+    }
+    return user;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 // Signup Service
 export const signupUser = async (
   email: string,
