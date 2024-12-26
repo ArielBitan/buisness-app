@@ -16,7 +16,7 @@ export const injectData = async () => {
           password: faker.internet.password(),
           profilePic: faker.image.avatar(),
           plan: faker.helpers.arrayElement([
-            "Normal",
+            "Default",
             "Standard",
             "Gold",
             "Platinum",

@@ -4,9 +4,11 @@ import { useUser } from "@/context/userContext";
 import { checkReviewOwnership, deleteReview } from "@/services/review.service";
 import { FaTrash } from "react-icons/fa";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 interface ReviewProps {
   _id: string;
+  userId: string;
   name: string;
   businessId: string | undefined;
   content: string;
@@ -16,6 +18,7 @@ const Review: React.FC<ReviewProps> = ({
   name,
   content,
   profilePic,
+  userId,
   _id,
   businessId,
 }) => {
@@ -65,7 +68,12 @@ const Review: React.FC<ReviewProps> = ({
             />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <span className="font-extrabold text-lg mb-2">{name} : </span>
+          <Link
+            to={`/profile/${userId}`}
+            className="hover:cursor-pointer hover:underline"
+          >
+            <span className="font-extrabold text-lg mb-2">{name} : </span>
+          </Link>
         </div>
         {isOwner && (
           <FaTrash

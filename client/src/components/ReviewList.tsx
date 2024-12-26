@@ -82,6 +82,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ businessId }) => {
               _id={review._id}
               businessId={businessId}
               name={review.user.name}
+              userId={review.user._id}
               content={review.content}
               profilePic={review.user.profilePic}
             />

@@ -37,7 +37,19 @@ export const getSavedBusinesses = async (
       `/user/${userId}/saved-businesses`
     );
 
-    console.log(data);
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+// Function to get user businesses
+export const getUserBusinesses = async (
+  userId: string
+): Promise<IBusiness[]> => {
+  try {
+    const { data } = await api.get<IBusiness[]>(`/user/${userId}/businesses`);
     return data;
   } catch (error) {
     console.error(error);

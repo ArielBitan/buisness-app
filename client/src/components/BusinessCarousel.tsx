@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import {
   Carousel,
   CarouselContent,
@@ -6,29 +5,28 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
-import BusinessCard from "./BusinessCard";
-import { IBusiness } from "@/types/business.type";
 import React from "react";
 
-interface BusinessCarouselProps {
-  businesses: IBusiness[];
+interface BusinessCarouselProps<T> {
+  items: T[];
+  renderItem: (item: T) => React.ReactNode;
 }
 
-const BusinessCarousel: React.FC<BusinessCarouselProps> = ({ businesses }) => {
+const BusinessCarousel = <T,>({
+  items,
+  renderItem,
+}: BusinessCarouselProps<T>) => {
   return (
     <>
       <Carousel opts={{ loop: true }}>
         <CarouselContent>
-          {businesses.slice(0, 10).map((business) => (
+          {items.slice(0, 10).map((item, index) => (
             <CarouselItem
-              key={business._id}
+              key={index}
               className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
             >
-              <Link to={`/businesses/${business._id}`}>
-                <div className="shadow-md rounded-lg">
-                  <BusinessCard business={business} />
-                </div>
-              </Link>
+              {renderItem(item)}
+              {/* Render the item using the passed function */}
             </CarouselItem>
           ))}
         </CarouselContent>
