@@ -48,7 +48,12 @@ const ReviewList: React.FC<ReviewListProps> = ({ businessId }) => {
     }
   };
 
-  if (reviewsStatus === "pending") return <Loader />;
+  if (reviewsStatus === "pending")
+    return (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Loader className="animate-spin" />
+      </div>
+    );
   if (reviewsStatus === "error")
     return (
       <ErrorMessage

@@ -1,5 +1,6 @@
 import User from "../models/user.model";
 import Subscriber from "../models/subscriber.model";
+import { Schema } from "mongoose";
 
 //  get all subscribers of a specific business
 export const getSubscribersByBusinessId = async (businessId: string) => {
@@ -28,6 +29,7 @@ export const subscribeToBusiness = async (
       user: userId,
       business: businessId,
     });
+    const user = await User.findById(userId);
     if (existingSubscription) {
       throw new Error("User is already subscribed to this business.");
     }
@@ -37,7 +39,6 @@ export const subscribeToBusiness = async (
       business: businessId,
     });
     await newSubscription.save();
-
     return newSubscription;
   } catch (err) {
     throw new Error(err.message || "Failed to subscribe to business");

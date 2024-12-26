@@ -1,15 +1,11 @@
 import { useUser } from "@/context/userContext";
-import {
-  checkBusinessOwnership,
-  deleteBusiness,
-} from "@/services/business.service";
+import { checkBusinessOwnership } from "@/services/business.service";
 import { useEffect, useState } from "react";
-import { FaTrash } from "react-icons/fa";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { EditBusinessModal } from "./EditBusinessModal";
+import { DeleteBusinessModal } from "./DeleteBusinessModal";
 
 interface BusinessUpdateAndDeleteProps {
-  businessId: string | undefined;
+  businessId: string;
 }
 
 const BusinessUpdateAndDelete: React.FC<BusinessUpdateAndDeleteProps> = ({
@@ -17,8 +13,6 @@ const BusinessUpdateAndDelete: React.FC<BusinessUpdateAndDeleteProps> = ({
 }) => {
   const { user } = useUser();
   const [isOwner, setIsOwner] = useState<boolean>(false);
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user || !businessId) return;
@@ -35,23 +29,6 @@ const BusinessUpdateAndDelete: React.FC<BusinessUpdateAndDeleteProps> = ({
     fetchOwnershipStatus();
   }, [businessId, user]);
 
-  const deleteBusinessMutation = useMutation({
-    mutationFn: deleteBusiness,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["business", businessId] });
-      navigate("/businesses");
-    },
-    onError: (error) => {
-      console.error("Error deleting business:", error);
-    },
-  });
-
-  const handleDeleteBusiness = () => {
-    if (businessId) {
-      deleteBusinessMutation.mutate(businessId);
-    }
-  };
-
   if (!businessId) {
     return <p>Invalid business ID.</p>;
   }
@@ -59,11 +36,10 @@ const BusinessUpdateAndDelete: React.FC<BusinessUpdateAndDeleteProps> = ({
   return (
     <div>
       {isOwner && (
-        <FaTrash
-          className="hover:scale-110 hover:cursor-pointer text-red-500"
-          onClick={handleDeleteBusiness}
-          aria-label="Delete Business"
-        />
+        <div className="flex gap-4 items-center">
+          <EditBusinessModal businessId={businessId} />
+          <DeleteBusinessModal businessId={businessId} />
+        </div>
       )}
     </div>
   );

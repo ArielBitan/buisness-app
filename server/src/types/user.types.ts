@@ -1,4 +1,3 @@
-import { ObjectId } from "mongoose";
 import mongoose, { Document } from "mongoose";
 
 export type Plan = "Default" | "Standard" | "Gold" | "Platinum";
@@ -10,7 +9,6 @@ export interface I_UserDocument extends Document {
   password: string;
   profilePic: string;
   plan: Plan;
-  savedBusinesses: ObjectId[];
 }
 
 export type I_UserWithoutPassword = Omit<I_UserDocument, "password">;

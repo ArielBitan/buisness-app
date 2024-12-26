@@ -9,11 +9,15 @@ interface BusinessCardProps {
 const BusinessCard: React.FC<BusinessCardProps> = ({ business }) => {
   return (
     <div className="flex flex-col items-center font-poppins">
-      <div className="w-4/6 h-[200px] overflow-hidden">
+      <div className="w-4/6 h-[200px] overflow-hidden relative">
         <Img
           className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
           src={[business.image]}
-          loader={<Loader />}
+          loader={
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Loader className="animate-spin" />
+            </div>
+          }
         />
       </div>
       <div className="text-center mt-4 font-semi-bold text-2xl">

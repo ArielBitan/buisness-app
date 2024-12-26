@@ -5,7 +5,7 @@ import { IUser } from "@/types/user.type";
 interface UserContextType {
   user: IUser | null;
   fetchUser: () => void;
-  setUser: (user: IUser) => void;
+  setUser: (user: IUser | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);

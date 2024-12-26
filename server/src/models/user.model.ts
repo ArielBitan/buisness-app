@@ -23,15 +23,13 @@ const userSchema: mongoose.Schema<I_UserDocument> = new mongoose.Schema(
     profilePic: {
       type: String,
       required: false,
+      default: "https://robohash.org/mail@ashallendesign.co.uk",
     },
     plan: {
       type: String,
       enum: ["Default", "Standard", "Gold", "Platinum"],
       default: "Default",
     },
-    savedBusinesses: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
-    ],
   },
   {
     timestamps: { createdAt: true, updatedAt: false },

@@ -5,7 +5,6 @@ export interface IUser {
   name: string;
   profilePic?: string;
   plan: Plan;
-  savedBusinesses: string[];
   createdAt: string;
   businessCount: number;
   email: string;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "./ThemeProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
 import { useUser } from "@/context/userContext";
 import {
@@ -16,16 +16,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { LogOut } from "lucide-react";
 import { IUser } from "@/types/user.type";
-import { useToast } from "@/hooks/use-toast";
 import { logoutUser } from "@/services/user.service";
 
 const UserMenu = ({ user }: { user: IUser }) => {
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
+  const { setUser } = useUser();
   const handleLogout = async () => {
-    logoutUser();
-    navigate("/login");
+    try {
+      await logoutUser();
+      setUser(null);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
   return (
     <DropdownMenu>
@@ -45,7 +46,7 @@ const UserMenu = ({ user }: { user: IUser }) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="mb-1 hover:bg-primary/10 rounded">
-          <Link to="/profile">Profile</Link>
+          <Link to={`/profile/${user._id}`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={handleLogout}
@@ -71,7 +72,6 @@ const Navbar = () => {
     };
     fetchUserData();
   }, []);
-  console.log(user);
   if (isLoading) {
     return (
       <nav className="sticky top-0 z-50 bg-background text-foreground border-b border-border shadow-sm">

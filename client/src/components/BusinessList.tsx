@@ -19,7 +19,12 @@ const BusinessList: React.FC<BusinessListProps> = ({ limit }) => {
     queryFn: () => fetchAllBusinesses(limit),
   });
 
-  if (status === "pending") return <Loader />;
+  if (status === "pending")
+    return (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <Loader className="animate-spin" />
+      </div>
+    );
   if (status === "error") return <ErrorMessage message={error.message} />;
 
   return (
@@ -27,7 +32,7 @@ const BusinessList: React.FC<BusinessListProps> = ({ limit }) => {
       {businesses.map((business) => (
         <li
           key={business._id}
-          className="bg-primary/5 p-4 rounded-lg hover:scale-105"
+          className="bg-primary/5 p-4 rounded-lg hover:scale-105 shadow-md shadow-primary/30 hover:shadow-lg"
         >
           <Link to={`/businesses/${business._id}`}>
             <BusinessCard business={business} />

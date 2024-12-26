@@ -6,6 +6,7 @@ import { Toaster } from "./components/ui/toaster";
 import LoginPage from "./pages/LoginPage";
 import BusinessDetailsPage from "./pages/BusinessDetailsPage";
 import CreateBusinessPage from "./pages/CreateBusinessPage";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/businesses" element={<BusinessesPage />} />
         <Route path="/create-business" element={<CreateBusinessPage />} />
         <Route path="/businesses/:id" element={<BusinessDetailsPage />} />
+        <Route path="/profile/:id" element={<ProfilePage />} />
       </Routes>
     </div>
   );
