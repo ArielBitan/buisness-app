@@ -5,60 +5,7 @@ import { useTheme } from "./ThemeProvider";
 import { Link } from "react-router-dom";
 import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
 import { useUser } from "@/context/userContext";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { LogOut } from "lucide-react";
-import { IUser } from "@/types/user.type";
-import { logoutUser } from "@/services/user.service";
-
-const UserMenu = ({ user }: { user: IUser }) => {
-  const { setUser } = useUser();
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
-      setUser(null);
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar className="cursor-pointer mt-4">
-          <AvatarImage
-            className="rounded-full w-10 h-10"
-            src={user.profilePic}
-            alt="user-avatar"
-          />
-          <AvatarFallback className="rounded-full">CN</AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="mr-1 mt-2 bg-secondary p-2 rounded-lg shadow-lg">
-        <DropdownMenuLabel className="font-bold mb-2">
-          My Account:
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="mb-1 hover:bg-primary/10 rounded">
-          <Link to={`/profile/${user._id}`}>Profile</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={handleLogout}
-          className="flex gap-2 hover:cursor-pointer hover:bg-primary/10 rounded"
-        >
-          <LogOut />
-          <span>Logout</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-};
+import UserMenu from "./UserMenu";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();

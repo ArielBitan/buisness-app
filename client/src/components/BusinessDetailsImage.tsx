@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 import { useUser } from "@/context/userContext";
 import {
   checkSubscriptionStatus,
   subscribeToBusiness,
 } from "@/services/subscription.service";
+import { SocketContext } from "@/context/socketContext";
+import { toast } from "@/hooks/use-toast";
 
 interface BusinessDetailsImage {
   businessId: string;
@@ -20,10 +21,12 @@ const BusinessDetailsImage: React.FC<BusinessDetailsImage> = ({
 }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const { user } = useUser();
+  const socket = useContext(SocketContext);
   useEffect(() => {
     if (!user) {
       return;
     }
+
     const fetchSubscriptionStatus = async () => {
       try {
         const subscribed = await checkSubscriptionStatus(businessId);
@@ -32,8 +35,27 @@ const BusinessDetailsImage: React.FC<BusinessDetailsImage> = ({
         console.error("Error checking subscription status:", err);
       }
     };
+    if (isSubscribed && socket) {
+      socket.emit("subscribe", businessId);
+      socket.on("businessUpdated", (data) => {
+        if (data.businessId === businessId) {
+          toast({
+            title: "Business update received:",
+            description: data.message,
+          });
+        }
+      });
+      socket.on("businessDeleted", (data) => {
+        if (data.businessId === businessId) {
+          toast({
+            title: "Business update received:",
+            description: data.message,
+          });
+        }
+      });
+    }
     fetchSubscriptionStatus();
-  }, [businessId]);
+  }, [businessId, isSubscribed]);
 
   // Handle subscription toggle
   const handleToggleSubscription = async () => {

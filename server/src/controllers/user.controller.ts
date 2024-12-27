@@ -1,13 +1,11 @@
 import { Request, Response } from "express";
 import * as userService from "../services/user.service";
-import { profile } from "console";
 
 // Get user by id
 export const getUserById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const user = await userService.getUserDetails(id);
-    console.log(user);
     if (!user) {
       res.status(404).json({ error: "User not found" });
       return;

@@ -4,5 +4,5 @@ export interface I_NotificationDocument extends Document {
   user: ObjectId;
   business: ObjectId;
   message: string;
-  read: boolean;
+  read?: boolean;
 }
