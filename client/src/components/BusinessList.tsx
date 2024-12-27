@@ -28,7 +28,7 @@ const BusinessList: React.FC<BusinessListProps> = ({ limit }) => {
   if (status === "error") return <ErrorMessage message={error.message} />;
 
   return (
-    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-4 mx-4">
+    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 mx-4 md:grid-cols-3 lg:grid-cols-4">
       {businesses.map((business) => (
         <li
           key={business._id}
