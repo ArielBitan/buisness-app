@@ -16,6 +16,7 @@ import {
   ServerToClientEvents,
   SocketData,
 } from "types/socket.types";
+import path from "path";
 
 dotenv.config();
 
@@ -23,6 +24,8 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 const server = createServer(app);
+
+app.use(express.static(path.join(__dirname, "../../client/dist")));
 
 const io = new Server<
   ClientToServerEvents,
@@ -37,10 +40,7 @@ const io = new Server<
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
-
   socket.on("subscribe", (businessId: string) => {
-    console.log(`User subscribed to business: ${businessId}`);
     socket.join(businessId);
   });
 
@@ -49,14 +49,11 @@ io.on("connection", (socket) => {
     rooms.forEach((room) => {
       if (room !== socket.id) {
         socket.leave(room);
-        console.log(`User unsubscribed from room: ${room}`);
       }
     });
   });
 
-  socket.on("disconnect", () => {
-    console.log("A user disconnected:", socket.id);
-  });
+  socket.on("disconnect", () => {});
 });
 
 // Middleware
@@ -74,12 +71,14 @@ app.use("/api/businesses", businessRouter);
 app.use("/api/businesses", subscriptionRouter);
 app.use("/api/reviews", reviewRouter);
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
+});
+
 // Connect to the database and start the server
 connectToDatabase()
   .then(() => {
-    server.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`);
-    });
+    server.listen(port);
   })
   .catch((error) => {
     console.error("Failed to start server:", error);

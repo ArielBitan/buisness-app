@@ -33,9 +33,6 @@ export const getUserSavedBusinesses = async (id: string) => {
         async (subscription) => await Business.findById(subscription.business)
       )
     );
-    if (!savedBusinesses) {
-      console.log("no saved business");
-    }
     return savedBusinesses;
   } catch (error) {
     throw new Error(error);
@@ -49,9 +46,6 @@ export const getUserBusinesses = async (id: string) => {
       throw new Error("User doesnt exist");
     }
     const businesses = await Business.find({ owner: id });
-    if (!businesses) {
-      console.log("no saved business");
-    }
     return businesses;
   } catch (error) {
     throw new Error(error);

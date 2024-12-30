@@ -25,8 +25,6 @@ export const injectData = async () => {
       })
     )
   );
-  console.log(`${users.length} users inserted.`);
-
   // Create Businesses
   const businesses = await Business.insertMany(
     Array.from({ length: 10 }).map(() => ({
@@ -37,7 +35,6 @@ export const injectData = async () => {
       owner: faker.helpers.arrayElement(users)._id,
     }))
   );
-  console.log(`${businesses.length} businesses inserted.`);
 
   // Create Reviews
   const reviews = await Review.insertMany(
@@ -47,7 +44,6 @@ export const injectData = async () => {
       content: faker.lorem.sentence(),
     }))
   );
-  console.log(`${reviews.length} reviews inserted.`);
 
   // Create Subscribers
   const subscribers = await Subscriber.insertMany(
@@ -56,7 +52,6 @@ export const injectData = async () => {
       business: faker.helpers.arrayElement(businesses)._id,
     }))
   );
-  console.log(`${subscribers.length} subscribers inserted.`);
 
   // Populate 'subscribedAt' for subscribers
   await Promise.all(
@@ -66,5 +61,4 @@ export const injectData = async () => {
       });
     })
   );
-  console.log("Subscriber subscription dates populated.");
 };

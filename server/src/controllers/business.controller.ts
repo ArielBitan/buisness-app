@@ -71,7 +71,6 @@ export const checkBusinessOwnership = async (req: Request, res: Response) => {
 export const createBusiness = async (req: Request, res: Response) => {
   try {
     const { name, description, category, image } = req.body;
-    console.log(req.body);
     const owner = req.user._id;
     const user = await User.findById(owner);
 

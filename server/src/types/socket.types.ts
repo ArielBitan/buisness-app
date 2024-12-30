@@ -5,7 +5,6 @@ interface ServerToClientEvents {
 }
 
 interface ClientToServerEvents {
-  hello: () => void;
   subscribe: (businessId: string) => void;
   unsubscribeAll: () => void;
 }
