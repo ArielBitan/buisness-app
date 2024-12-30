@@ -14,9 +14,11 @@ interface SocketProviderProps {
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const { user } = useUser();
+  const URL =
+    process.env.NODE_ENV === "production" ? "/" : "http://localhost:3000";
 
   useEffect(() => {
-    const socketInstance = io("http://localhost:3000");
+    const socketInstance = io(URL);
 
     socketInstance.on("connect", () => {});
 
