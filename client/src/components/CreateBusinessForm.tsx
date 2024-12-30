@@ -45,7 +45,6 @@ export const CreateBusinessForm = () => {
     return;
   }
   const planLimit = PLAN_LIMITS[user.plan];
-  console.log(user.businessCount);
   const remainingPosts = planLimit - user.businessCount;
   const form = useForm({
     resolver: zodResolver(formSchema),

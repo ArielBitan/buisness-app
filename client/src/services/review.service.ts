@@ -38,6 +38,5 @@ export const checkReviewOwnership = async (
 };
 
 export const deleteReview = async (reviewId: string): Promise<void> => {
-  const { data } = await api.delete(`/reviews/${reviewId}`);
-  console.log(data);
+  await api.delete(`/reviews/${reviewId}`);
 };

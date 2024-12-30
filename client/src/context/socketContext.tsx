@@ -18,9 +18,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   useEffect(() => {
     const socketInstance = io("http://localhost:3000");
 
-    socketInstance.on("connect", () => {
-      console.log("Socket connected:", socketInstance.id);
-    });
+    socketInstance.on("connect", () => {});
 
     socketInstance.on("disconnect", () => {
       console.warn("Socket disconnected");

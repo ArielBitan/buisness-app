@@ -38,7 +38,6 @@ export const DeleteBusinessModal: React.FC<DeleteBusinessModalProps> = ({
 
   const handleDeleteBusiness = () => {
     if (businessId) {
-      console.log(businessId);
       deleteBusinessMutation.mutate(businessId);
     }
   };

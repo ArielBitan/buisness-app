@@ -32,9 +32,7 @@ export const createBusiness = async (
   businessData: Omit<IBusiness, "_id" | "createdAt" | "updatedAt">
 ): Promise<IBusiness> => {
   try {
-    console.log(businessData);
     const { data } = await api.post<IBusiness>("/businesses", businessData);
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error creating business:", error);
