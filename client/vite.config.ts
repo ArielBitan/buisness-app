@@ -9,4 +9,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir: "dist", // Ensure this points to the dist folder
+    emptyOutDir: true, // Clears out the dist folder before building
+  },
 });
