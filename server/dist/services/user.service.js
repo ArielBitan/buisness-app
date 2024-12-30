@@ -43,9 +43,6 @@ const getUserSavedBusinesses = (id) => __awaiter(void 0, void 0, void 0, functio
         }
         const subscriptions = yield subscriber_model_1.default.find({ user: id });
         const savedBusinesses = yield Promise.all(subscriptions.map((subscription) => __awaiter(void 0, void 0, void 0, function* () { return yield business_model_1.default.findById(subscription.business); })));
-        if (!savedBusinesses) {
-            console.log("no saved business");
-        }
         return savedBusinesses;
     }
     catch (error) {
@@ -60,9 +57,6 @@ const getUserBusinesses = (id) => __awaiter(void 0, void 0, void 0, function* ()
             throw new Error("User doesnt exist");
         }
         const businesses = yield business_model_1.default.find({ owner: id });
-        if (!businesses) {
-            console.log("no saved business");
-        }
         return businesses;
     }
     catch (error) {

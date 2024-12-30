@@ -111,7 +111,6 @@ exports.checkBusinessOwnership = checkBusinessOwnership;
 const createBusiness = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, description, category, image } = req.body;
-        console.log(req.body);
         const owner = req.user._id;
         const user = yield user_model_1.default.findById(owner);
         const businessCount = yield business_model_1.default.countDocuments({ owner });

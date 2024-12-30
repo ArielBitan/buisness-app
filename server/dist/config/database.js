@@ -18,8 +18,6 @@ function connectToDatabase() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield mongoose_1.default.connect(process.env.MONGO_URI);
-            console.log("Connected to database.");
-            // injectData();
         }
         catch (error) {
             console.error("Error connecting to the database or running operations:", error);

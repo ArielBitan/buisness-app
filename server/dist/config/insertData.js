@@ -35,7 +35,6 @@ const injectData = () => __awaiter(void 0, void 0, void 0, function* () {
             ]),
         };
     }))));
-    console.log(`${users.length} users inserted.`);
     // Create Businesses
     const businesses = yield business_model_1.default.insertMany(Array.from({ length: 10 }).map(() => ({
         name: faker_1.faker.company.name(),
@@ -44,27 +43,23 @@ const injectData = () => __awaiter(void 0, void 0, void 0, function* () {
         image: faker_1.faker.image.urlPicsumPhotos(),
         owner: faker_1.faker.helpers.arrayElement(users)._id,
     })));
-    console.log(`${businesses.length} businesses inserted.`);
     // Create Reviews
     const reviews = yield review_model_1.default.insertMany(Array.from({ length: 20 }).map(() => ({
         user: faker_1.faker.helpers.arrayElement(users)._id,
         business: faker_1.faker.helpers.arrayElement(businesses)._id,
         content: faker_1.faker.lorem.sentence(),
     })));
-    console.log(`${reviews.length} reviews inserted.`);
     // Create Subscribers
     const subscribers = yield subscriber_model_1.default.insertMany(Array.from({ length: 50 }).map(() => ({
         user: faker_1.faker.helpers.arrayElement(users)._id,
         business: faker_1.faker.helpers.arrayElement(businesses)._id,
     })));
-    console.log(`${subscribers.length} subscribers inserted.`);
     // Populate 'subscribedAt' for subscribers
     yield Promise.all(subscribers.map((subscriber) => {
         return subscriber_model_1.default.findByIdAndUpdate(subscriber._id, {
             $set: { subscribedAt: faker_1.faker.date.past() }, // Random subscription date
         });
     }));
-    console.log("Subscriber subscription dates populated.");
 });
 exports.injectData = injectData;
 //# sourceMappingURL=insertData.js.map
